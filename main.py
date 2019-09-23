@@ -43,7 +43,7 @@ def displayText(surface,message,x,y,size,r,g,b):
 
 
 
-class room():
+class room():#idk why i don't think i really need this...
 	"""docstring for room"""
 	def __init__(self, image,parachute,xlimit1,xlimit2,ylimit1,ylimit2):
 		self.image = image
@@ -63,18 +63,21 @@ class room():
 
 class player():
 	"""docstring for player"""
-	def __init__(self,x,y,limits,left):
+	def __init__(self,x,y,limits,left,room_number):
 		self.x = x
 		self.y = y
 		self.limits = limits
 		self.left = left
+		self.room_number = room_number
 	def move(self):
+		self.room_number = 1
 		left_exit = False
 		right_exit = False
+		has_parachute = False
 		pressed = pygame.key.get_pressed()	
-		if pressed[pygame.K_UP]: self.y -=10
-		elif pressed[pygame.K_DOWN]: self.y +=10
-		elif pressed[pygame.K_LEFT]: 
+		# if pressed[pygame.K_UP]: self.y -=10
+		# elif pressed[pygame.K_DOWN]: self.y +=10
+		if pressed[pygame.K_LEFT]: 
 			self.x -= 10
 			self.left = True
 		elif pressed[pygame.K_RIGHT]:
@@ -85,10 +88,23 @@ class player():
 			self.x = self.limits[0]
 			left_exit = True
 
+
+			if self.room_number ==1 or self.room_number ==1:
+
+				self.x = 690
+				self.y = 210
+				print("Lexit")
+
 			
 		elif self.x >= self.limits[1]: #right
 			self.x = self.limits[1]
 			right_exit = True
+
+
+			if self.room_number ==3 or self.room_number ==2:
+				print("Rexit")
+				self.x = 30
+				self.y = 210
 
 		elif self.y <=self.limits[2]:#good top
 			self.y = self.limits[2]
@@ -97,7 +113,7 @@ class player():
 			self.y = self.limits[3]
 
 	
-		return(self.x,self.y,right_exit,left_exit,self.left)
+		return(self.x,self.y,right_exit,left_exit,self.left,has_parachute,self.room_number)
 	def draw(self,surface,image):
 		surface.blit(image,(self.x,self.y))
 		
@@ -117,17 +133,24 @@ counter, text = 30, '30'.rjust(3)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 #-----
 
+
+
 room1 = room(room1bg,False,0,800,100,310)
 room2 = room(room2bg,False,100,100,100,100)
 room3 = room(room2bg,False,100,100,100,100)
-rooms = (room1,room2,room3)
+current_room = room1
+test_room = "room1"
 
 
-jump = False
-exit = False
+
+
+
 PX = 50
 PY = 50
-bob = player(PX,PY,(-40,760,0,316),True)
+bob = player(PX,PY,(-40,760,0,316),True,1)#-------------------------------------
+coords_of_bob = bob.move() #and move bob of course!
+
+
 while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -142,13 +165,30 @@ while not done:
 
 
 	#rooms-------------------------------------------------------
-	
 
+#return(self.x ,self.y, right_exit, left_exit ,self.left ,has_parachute, self.room_number)
 
-
-
+	current_room.draw(screen)
 
 	coords_of_bob = bob.move() #and move bob of course!
+
+	if coords_of_bob[2] == True and coords_of_bob[5] == False:#move right
+		if current_room == room1:
+			stillScene(death,0,0)
+
+	elif coords_of_bob[2] == True and coords_of_bob[5] == True:#move right
+		if current_room == room1:
+			quit()#START GAME!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	if coords_of_bob[3] == True and current_room == room1:
+		current_room == room2
+		
+
+
+
+
+
+
 
 
 
@@ -160,12 +200,11 @@ while not done:
 
 
 
-
 	
 	# displayText(screen,"poooo",0,0,60,50,255,255)
 	# displayText(screen,str(counter),500,0,60,255,0,0)
 
-	print(coords_of_bob)
+	# print(coords_of_bob)
 
 	pygame.display.flip()
 	clock.tick(60)
