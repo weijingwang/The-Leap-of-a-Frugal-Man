@@ -6,8 +6,12 @@ pygame.display.set_caption("tower game (Pyweek28) ...")
 
 blackTexture = pygame.image.load("./assets/back_texture.png")
 room1bg = pygame.image.load("./assets/room1.png")
+room2bg = pygame.image.load("./assets/room2.png")
+room3bg = pygame.image.load("./assets/room3.png")
 titlePic = pygame.image.load("./assets/title.png")
-playerPic = pygame.image.load("./assets/player.png")
+playerR = pygame.image.load("./assets/player_right.png")
+playerL= pygame.image.load("./assets/player_left.png")
+
 frontground =pygame.image.load("./assets/frontground.png")
 death =pygame.image.load("./assets/death.png")
 
@@ -31,11 +35,12 @@ def stillScene(picture,x,y):
 
 			pygame.display.flip()
 
-
 def displayText(surface,message,x,y,size,r,g,b):
 	myfont = pygame.font.Font(None,size)
 	textImage = myfont.render(message, True, (r,g,b))
 	surface.blit(textImage,(x,y))
+
+
 
 
 class room():
@@ -52,34 +57,49 @@ class room():
 	def sendLimit(self):
 		return(self.xlimit1,self.xlimit2,self.ylimit1,self.ylimit2)
 
+
+
+
+
 class player():
 	"""docstring for player"""
-	def __init__(self, image,x,y,limits):
-		self.image = image
+	def __init__(self,x,y,limits,left):
 		self.x = x
 		self.y = y
 		self.limits = limits
+		self.left = left
 	def move(self):
+		left_exit = False
+		right_exit = False
 		pressed = pygame.key.get_pressed()	
 		if pressed[pygame.K_UP]: self.y -=10
 		elif pressed[pygame.K_DOWN]: self.y +=10
-		elif pressed[pygame.K_LEFT]: self.x -= 10
-		elif pressed[pygame.K_RIGHT]: self.x += 10		
-		if self.y <-self.limits[2]:
+		elif pressed[pygame.K_LEFT]: 
+			self.x -= 10
+			self.left = True
+		elif pressed[pygame.K_RIGHT]:
+			self.x += 10
+			self.left = False
+
+		if self.x <= self.limits[0]: #good left
+			self.x = self.limits[0]
+			left_exit = True
+
+			
+		elif self.x >= self.limits[1]: #right
+			self.x = self.limits[1]
+			right_exit = True
+
+		elif self.y <=self.limits[2]:#good top
 			self.y = self.limits[2]
-		elif self.y>self.limits[3]:
+
+		elif self.y>=self.limits[3]: #goooood bottom
 			self.y = self.limits[3]
-		elif self.x < self.limits[0]:
-			print("exit")
-			quit()
-			
-		elif self.x > self.limits[1]:
-			print("jump")
-			quit()
-			
-		return(self.x,self.y)
-	def draw(self,surface):
-		surface.blit(self.image,(self.x,self.y))
+
+	
+		return(self.x,self.y,right_exit,left_exit,self.left)
+	def draw(self,surface,image):
+		surface.blit(image,(self.x,self.y))
 		
 		
 
@@ -87,7 +107,7 @@ class player():
 done = False
 
 screen.fill((255,255,255))
-stillScene(titlePic,0,0)
+# stillScene(titlePic,0,0)
 
 
 
@@ -97,13 +117,17 @@ counter, text = 30, '30'.rjust(3)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 #-----
 
-room1 = room(room1bg,False,-80,800,100,310)
+room1 = room(room1bg,False,0,800,100,310)
+room2 = room(room2bg,False,100,100,100,100)
+room3 = room(room2bg,False,100,100,100,100)
+rooms = (room1,room2,room3)
 
 
 jump = False
 exit = False
-
-bob = player(playerPic,50,50,(-80,800,100,310))
+PX = 50
+PY = 50
+bob = player(PX,PY,(-40,760,0,316),True)
 while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -117,18 +141,31 @@ while not done:
 
 
 
+	#rooms-------------------------------------------------------
+	
+
+
+
+
+
 	coords_of_bob = bob.move() #and move bob of course!
 
-	room1.draw(screen)
-	screen.blit(pygame.transform.scale(blackTexture, (800,600)),(0,0))
 
-	bob.draw(screen)
 
-	screen.blit(frontground,(0,0))
+
+	if coords_of_bob[4] == True:#if go left
+		bob.draw(screen,playerL)
+	elif coords_of_bob[4] == False:#if go right
+		bob.draw(screen,playerR)
+
+
+
+
 	
-	displayText(screen,"poooo",0,0,60,50,255,255)
-	displayText(screen,str(counter),500,0,60,255,0,0)
+	# displayText(screen,"poooo",0,0,60,50,255,255)
+	# displayText(screen,str(counter),500,0,60,255,0,0)
 
-	print(coords_of_bob[0],coords_of_bob[1])
+	print(coords_of_bob)
+
 	pygame.display.flip()
 	clock.tick(60)
