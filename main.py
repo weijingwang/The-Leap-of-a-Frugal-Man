@@ -22,7 +22,7 @@ scene1 =pygame.image.load("./assets/scene1.png")
 scene2 =pygame.image.load("./assets/scene2.png")
 
 
-def stillScene(picture,x,y):
+def stillScene(picture,x,y,button):
 	done = False
 
 	while not done:
@@ -30,7 +30,7 @@ def stillScene(picture,x,y):
 			if event.type == pygame.QUIT:
 				quit()
 			elif event.type == pygame.KEYDOWN: 
-				if event.key == pygame.K_SPACE:
+				if event.key == button:
 					done = True
 
 			
@@ -196,16 +196,19 @@ def make_room(image,PX,PY):
 		pygame.display.flip()
 		print(PX,PY)
 		clock.tick(60)
-pygame.mixer.music.load("./assets/falling.ogg") 
+pygame.mixer.music.load("./assets/falling.ogg")
+# pygame.mixer.music.load("./assets/title.ogg")  
 pygame.mixer.music.play(-1,0.0)
-stillScene(titlePic,0,0)
+stillScene(titlePic,0,0,pygame.K_SPACE)
 make_room(room1bg,300,100)
 make_room(room2bg,500,300)
 make_room(room3bg,500,150)
-stillScene(parachute,0,0)
+stillScene(parachute,0,0,pygame.K_SPACE)
 
 make_room(room1bg,300,100)
-stillScene(scene1,0,0)
-stillScene(scene2,0,0)
+stillScene(scene1,0,0,pygame.K_SPACE)
+stillScene(scene2,0,0,pygame.K_SPACE)
+stillScene(scene3,0,0,pygame.K_j)
+
 
 
