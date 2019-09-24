@@ -24,6 +24,11 @@ scene1 =pygame.image.load("./assets/scene1.png")
 scene2 =pygame.image.load("./assets/scene2.png")
 scene3 =pygame.image.load("./assets/scene3.png")
 
+
+#game object
+building = pygame.image.load("./assets/building.png")
+
+
 def stillScene(picture,x,y,button):
 	done = False
 
@@ -209,7 +214,7 @@ def make_room(image,PX,PY):
 #pregame	
 def pregame():
 	pygame.mixer.music.load("./assets/falling.ogg")
-	# pygame.mixer.music.load("./assets/title.ogg")  
+	#pygame.mixer.music.load("./assets/title.ogg")  
 	pygame.mixer.music.play(-1,0.0)
 	stillScene(titlePic,0,0,pygame.K_SPACE)
 	make_room(room1bg,300,100)
@@ -252,7 +257,49 @@ def fall_animation():
 			yv+=gravity
 
 		if y>= 800:
-			quit()
+			done = True
+		pygame.display.flip()
+
+
+def falling_game():
+	
+	done = False
+
+	#fall variables
+	meters_fallen = 0
+	playerX = 400
+	playerY = 10
+
+
+	while not done:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				quit()
+
+
+		pressed = pygame.key.get_pressed()	
+		if pressed[pygame.K_LEFT]: playerX -= 10
+		elif pressed[pygame.K_RIGHT]: playerX += 10
+		elif pressed[pygame.K_UP]: playerY -= 10
+		elif pressed[pygame.K_DOWN]: playerY += 10
+
+		if playerX<=0:
+			playerX = 0
+		elif playerX>=720:
+			playerX=720
+		elif playerY<=0:
+			playerY= 0
+		elif playerY>=520:
+			playerY=520
+			
+		screen.fill((113, 197, 255))
+		#screen.blit(scene3,(0,0))
+		screen.blit(building,(0,0))
+
+
+
+		screen.blit(player_fall,(playerX,playerY))
+
 		pygame.display.flip()
 
 
@@ -261,9 +308,11 @@ def fall_animation():
 
 
 # #title
-stillScene(splash,0,0,pygame.K_SPACE)	
-pregame()
-fall_animation()
+# stillScene(splash,0,0,pygame.K_SPACE)	
+# pregame()
+#fall_animation()
+
+falling_game()
 
 
 
