@@ -12,6 +12,7 @@ room3bg = pygame.image.load("./assets/room3.png")
 titlePic = pygame.image.load("./assets/title.png")
 playerR = pygame.image.load("./assets/player_right.png")
 playerL= pygame.image.load("./assets/player_left.png")
+player_fall= pygame.image.load("./assets/player_fall.png")
 
 frontground =pygame.image.load("./assets/frontground.png")
 death =pygame.image.load("./assets/death.png")
@@ -201,8 +202,7 @@ def make_room(image,PX,PY):
 
 
 
-#title
-stillScene(splash,0,0,pygame.K_SPACE)
+
 
 
 
@@ -220,8 +220,48 @@ def pregame():
 	make_room(room1bg,300,100)
 	stillScene(scene1,0,0,pygame.K_SPACE)
 	stillScene(scene2,0,0,pygame.K_SPACE)
-	stillScene(scene3,0,0,pygame.K_j)
+	#stillScene(scene3,0,0,pygame.K_j)
+
+
+def fall_animation():
+	done = False
+	start_fall = False
+	#fall variables
+	y = 0
+	x = 0
+	xv = 10
+	yv = 3
+	gravity = 0.5
+
+	while not done:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				quit()
+			elif event.type == pygame.KEYDOWN: 
+				if event.key == pygame.K_j:
+					start_fall = True
+		screen.blit(scene3,(0,0))
+
+
+
+
+		screen.blit(player_fall,(x,y))
+		if start_fall == True:
+			y+=yv
+			x+=xv
+			yv+=gravity
+
+		pygame.display.flip()
+
+
+
+
+
+
+#title
+stillScene(splash,0,0,pygame.K_SPACE)	
 pregame()
+fall_animation()
 
 
 
