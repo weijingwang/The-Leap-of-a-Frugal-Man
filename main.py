@@ -14,7 +14,7 @@ playerL= pygame.image.load("./assets/player_left.png")
 
 frontground =pygame.image.load("./assets/frontground.png")
 death =pygame.image.load("./assets/death.png")
-
+parachute =pygame.image.load("./assets/parachute.png")
 
 
 def stillScene(picture,x,y):
@@ -29,7 +29,7 @@ def stillScene(picture,x,y):
 					done = True
 
 			
-			screen.blit(picture,(x,y))
+			screen.blit(pygame.transform.scale(picture,(800,600)),(x,y))
 			
 
 
@@ -131,7 +131,7 @@ def make_room(image,PX,PY):
 			if event.type == pygame.QUIT:
 				quit()
 			elif event.type == pygame.KEYDOWN: 
-				if event.key == pygame.K_SPACE:
+				if event.key == pygame.K_RETURN:
 					done = True
 			if event.type == pygame.USEREVENT:
 				counter -= 1
@@ -192,11 +192,11 @@ def make_room(image,PX,PY):
 		print(PX,PY)
 		clock.tick(60)
 
-
+stillScene(titlePic,0,0)
 make_room(room1bg,300,100)
 make_room(room2bg,500,300)
 make_room(room3bg,500,150)
-
+stillScene(parachute,0,0)
 
 
 
