@@ -15,7 +15,7 @@ playerL= pygame.image.load("./assets/player_left.png")
 frontground =pygame.image.load("./assets/frontground.png")
 death =pygame.image.load("./assets/death.png")
 
-#screen.blit(pygame.transform.scale(blackTexture, (800, 400)), (0, 400))
+
 
 def stillScene(picture,x,y):
 	done = False
@@ -42,20 +42,6 @@ def displayText(surface,message,x,y,size,r,g,b):
 
 
 
-
-class room():#idk why i don't think i really need this...
-	"""docstring for room"""
-	def __init__(self, image,parachute,xlimit1,xlimit2,ylimit1,ylimit2):
-		self.image = image
-		self.parachute = parachute
-		self.xlimit1 = xlimit1
-		self.xlimit2 =xlimit2
-		self.ylimit1 = ylimit1
-		self.ylimit2 = ylimit2
-	def draw(self,screen):
-		screen.blit(self.image,(0,0))
-	def sendLimit(self):
-		return(self.xlimit1,self.xlimit2,self.ylimit1,self.ylimit2)
 
 
 
@@ -118,93 +104,99 @@ class player():
 		surface.blit(image,(self.x,self.y))
 		
 		
+def make_room(image,PX,PY):
+	#pregame game
+	done = False
 
-#pregame game
-done = False
-
-screen.fill((255,255,255))
-# stillScene(titlePic,0,0)
-
-
-
-#clock here--------------------------
-clock = pygame.time.Clock()
-counter, text = 30, '30'.rjust(3)
-pygame.time.set_timer(pygame.USEREVENT, 1000)
-#-----
+	screen.fill((255,255,255))
+	# stillScene(titlePic,0,0)
 
 
 
-room1 = room(room1bg,False,0,800,100,310)
-room2 = room(room2bg,False,100,100,100,100)
-room3 = room(room2bg,False,100,100,100,100)
-current_room = room1
-test_room = "room1"
+	#clock here--------------------------
+	clock = pygame.time.Clock()
+	counter, text = 30, '30'.rjust(3)
+	pygame.time.set_timer(pygame.USEREVENT, 1000)
+	#-----
 
 
 
 
-
-PX = 50
-PY = 50
-bob = player(PX,PY,(-40,760,0,316),True,1)#-------------------------------------
-coords_of_bob = bob.move() #and move bob of course!
-
-
-while not done:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			quit()
-		elif event.type == pygame.KEYDOWN: 
-			if event.key == pygame.K_SPACE:
-				done = True
-		if event.type == pygame.USEREVENT:
-			counter -= 1
-			text = str(counter).rjust(3) if counter > 0 else 'boom!'
-
-
-
-	#rooms-------------------------------------------------------
-
-#return(self.x ,self.y, right_exit, left_exit ,self.left ,has_parachute, self.room_number)
-
-	current_room.draw(screen)
-
+	bob = player(PX,PY,(-40,760,0,316),True,1)#-------------------------------------
 	coords_of_bob = bob.move() #and move bob of course!
 
-	if coords_of_bob[2] == True and coords_of_bob[5] == False:#move right
-		if current_room == room1:
-			stillScene(death,0,0)
 
-	elif coords_of_bob[2] == True and coords_of_bob[5] == True:#move right
-		if current_room == room1:
-			quit()#START GAME!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	while not done:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				quit()
+			elif event.type == pygame.KEYDOWN: 
+				if event.key == pygame.K_SPACE:
+					done = True
+			if event.type == pygame.USEREVENT:
+				counter -= 1
+				text = str(counter).rjust(3) if counter > 0 else 'boom!'
 
-	if coords_of_bob[3] == True and current_room == room1:
-		current_room == room2
+
+		screen.blit(image,(0,0))
+		#screen.blit(pygame.transform.scale(blackTexture, (800, 400)), (0, 400))
+		screen.blit(pygame.transform.scale(blackTexture, (800, 600)), (0, 0))
+		#rooms-------------------------------------------------------
+
+	#return(self.x ,self.y, right_exit, left_exit ,self.left ,has_parachute, self.room_number)
+
+
+		coords_of_bob = bob.move() #and move bob of course!
+
+		# if coords_of_bob[2] == True and coords_of_bob[5] == False:#move right
+		# 	if current_room == room1:
+		# 		stillScene(death,0,0)
+
+		# elif coords_of_bob[2] == True and coords_of_bob[5] == True:#move right
+		# 	if current_room == room1:
+		# 		quit()#START GAME!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+		# if coords_of_bob[3] == True and current_room == room1:
+		# 	current_room == room2
+			
+
+
+
+
+
+
+
+
+
+
+		if coords_of_bob[4] == True:#if go left
+			bob.draw(screen,playerL)
+		elif coords_of_bob[4] == False:#if go right
+			bob.draw(screen,playerR)
+
+
+		if coords_of_bob[2]: #if exit right
+			done=True
+			return "right"
+		elif coords_of_bob[3]:
+			done = True
+			return "left"
+		
+		# displayText(screen,"poooo",0,0,60,50,255,255)
+		# displayText(screen,str(counter),500,0,60,255,0,0)
+
+		# print(coords_of_bob)
 		
 
+		pygame.display.flip()
+		print(PX,PY)
+		clock.tick(60)
+
+
+make_room(room1bg,300,100)
+make_room(room2bg,500,300)
+make_room(room3bg,500,150)
 
 
 
 
-
-
-
-
-
-	if coords_of_bob[4] == True:#if go left
-		bob.draw(screen,playerL)
-	elif coords_of_bob[4] == False:#if go right
-		bob.draw(screen,playerR)
-
-
-
-	
-	# displayText(screen,"poooo",0,0,60,50,255,255)
-	# displayText(screen,str(counter),500,0,60,255,0,0)
-
-	# print(coords_of_bob)
-
-	pygame.display.flip()
-	clock.tick(60)
