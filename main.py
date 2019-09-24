@@ -18,9 +18,10 @@ death =pygame.image.load("./assets/death.png")
 parachute =pygame.image.load("./assets/parachute.png")
 
 #scene
+splash =pygame.image.load("./assets/splash.png")
 scene1 =pygame.image.load("./assets/scene1.png")
 scene2 =pygame.image.load("./assets/scene2.png")
-
+scene3 =pygame.image.load("./assets/scene3.png")
 
 def stillScene(picture,x,y,button):
 	done = False
@@ -194,21 +195,33 @@ def make_room(image,PX,PY):
 		
 
 		pygame.display.flip()
-		print(PX,PY)
+		# print(PX,PY)
 		clock.tick(60)
-pygame.mixer.music.load("./assets/falling.ogg")
-# pygame.mixer.music.load("./assets/title.ogg")  
-pygame.mixer.music.play(-1,0.0)
-stillScene(titlePic,0,0,pygame.K_SPACE)
-make_room(room1bg,300,100)
-make_room(room2bg,500,300)
-make_room(room3bg,500,150)
-stillScene(parachute,0,0,pygame.K_SPACE)
 
-make_room(room1bg,300,100)
-stillScene(scene1,0,0,pygame.K_SPACE)
-stillScene(scene2,0,0,pygame.K_SPACE)
-stillScene(scene3,0,0,pygame.K_j)
+
+
+
+#title
+stillScene(splash,0,0,pygame.K_SPACE)
+
+
+
+#pregame	
+def pregame():
+	pygame.mixer.music.load("./assets/falling.ogg")
+	# pygame.mixer.music.load("./assets/title.ogg")  
+	pygame.mixer.music.play(-1,0.0)
+	stillScene(titlePic,0,0,pygame.K_SPACE)
+	make_room(room1bg,300,100)
+	make_room(room2bg,500,300)
+	make_room(room3bg,500,150)
+	stillScene(parachute,0,0,pygame.K_SPACE)
+
+	make_room(room1bg,300,100)
+	stillScene(scene1,0,0,pygame.K_SPACE)
+	stillScene(scene2,0,0,pygame.K_SPACE)
+	stillScene(scene3,0,0,pygame.K_j)
+pregame()
 
 
 
