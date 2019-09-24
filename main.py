@@ -251,6 +251,8 @@ def fall_animation():
 			x+=xv
 			yv+=gravity
 
+		if y>= 800:
+			quit()
 		pygame.display.flip()
 
 
@@ -258,7 +260,7 @@ def fall_animation():
 
 
 
-#title
+# #title
 stillScene(splash,0,0,pygame.K_SPACE)	
 pregame()
 fall_animation()
