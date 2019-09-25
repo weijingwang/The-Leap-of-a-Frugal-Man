@@ -1,6 +1,6 @@
 import pygame
 from fadetoWhite import *
-from random import randrange
+from random import randrange, choice
 pygame.mixer.pre_init()
 pygame.init()
 
@@ -288,20 +288,6 @@ def fall_animation():
 # 	def draw(self,image):
 # 		# screen.blit(image,(self.x,self.y))
 # 		screen.blit(building,(0,0))
-
-
-class bird():
-	"""docstring for ClassName"""
-	def __init__(self, x,y,image):
-		self.x = x
-		self.y = y
-	def move(self):
-		self.x = randrange(186,720)
-		self.y = 600
-		self.y-=1
-	def draw(self,surface):
-		surface.blit(image,(self.x,self.y))
-
 						
 
 def falling_game():
@@ -321,9 +307,13 @@ def falling_game():
 
 
 	#bird
-	bird_number = randrange(0,2)
-	birdY = 0
-	birdX = randrange(186,720)
+	# bird_number = randrange(0,2)
+	birdY = 300
+	birdX=-80
+
+	bird2Y = 400
+	bird2X=-80
+
 
 	#fall objects
 	# building_o = falling_object(0,0,5)
@@ -364,6 +354,33 @@ def falling_game():
 
 
 		screen.blit(player_image,(playerX,playerY))
+
+#bird 1
+		screen.blit(bird,(birdX,birdY))
+		birdX+=5+randrange(-2,2)
+		birdY+= randrange(-2,2)
+		if birdX>=800:
+			
+			birdX=-80
+			birdY=randrange(300,520)
+			print(birdY)
+		elif birdY<=0:
+			birdY=randrange(300,520)
+			birdX=-80
+			print(birdY)
+#bird2
+		screen.blit(bird,(bird2X,bird2Y))
+		bird2X+=5+randrange(-2,2)
+		bird2Y+= randrange(-2,2)
+		if bird2X>=800:
+			
+			bird2X=-80
+			bird2Y=randrange(0,250)
+			print(bird2Y)
+		elif bird2Y<=0:
+			bird2Y=randrange(0,250)
+			bird2X=-80
+			print(bird2Y)
 		# building_o.draw(building)
 
 
@@ -373,12 +390,27 @@ def falling_game():
 		cityY-=0.2
 		if buildingY <=-600:
 			buildingY=0
+
+		#TRIGGER FLAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 		if cityY <=297:
 			print("you done")
+			
+
+
 		if playerX<=186:
 
 			return "dead"
 
+		if playerX <= birdX+80:
+			if playerX+80 >= birdX:
+				if playerY <= birdY+80:
+					if playerY+80 >= birdY:
+						return "dead"
+		if playerX <= bird2X+80:
+			if playerX+80 >= bird2X:
+				if playerY <= bird2Y+80:
+					if playerY+80 >= bird2Y:
+						return "dead"
 
 			# player_image = explosion1
 
@@ -391,9 +423,9 @@ def falling_game():
 
 
 # #title
-# stillScene(splash,0,0,pygame.K_SPACE)	
-# pregame()
-# fall_animation()
+stillScene(splash,0,0,pygame.K_SPACE)	
+pregame()
+fall_animation()
 
 if falling_game() == "dead":
 	pygame.mixer.music.stop()
@@ -401,6 +433,8 @@ if falling_game() == "dead":
 	pygame.mixer.music.play(-1,0.0)
 	fadetoWhite(screen,death1)
 	stillScene(death,0,0,pygame.K_SPACE)
+
+# falling_game()
 
 
 
