@@ -1,4 +1,6 @@
 import pygame
+from fadetoWhite import *
+from random import randrange
 pygame.mixer.pre_init()
 pygame.init()
 
@@ -31,6 +33,13 @@ cloud = pygame.image.load("./assets/cloud.png")
 city = pygame.image.load("./assets/city.png")
 explosion1 = pygame.image.load("./assets/explosion1.png")
 explosion2 = pygame.image.load("./assets/explosion2.png")
+bird = pygame.image.load("./assets/bird.png")
+
+
+
+#game cg
+death1 =pygame.image.load("./assets/death1.png")
+
 def stillScene(picture,x,y,button):
 	done = False
 
@@ -281,7 +290,19 @@ def fall_animation():
 # 		screen.blit(building,(0,0))
 
 
-		
+class bird():
+	"""docstring for ClassName"""
+	def __init__(self, x,y,image):
+		self.x = x
+		self.y = y
+	def move(self):
+		self.x = randrange(186,720)
+		self.y = 600
+		self.y-=1
+	def draw(self,surface):
+		surface.blit(image,(self.x,self.y))
+
+						
 
 def falling_game():
 	
@@ -297,8 +318,17 @@ def falling_game():
 	cloudY = 300
 	cityY = 600
 
+
+
+	#bird
+	bird_number = randrange(0,2)
+	birdY = 0
+	birdX = randrange(186,720)
+
 	#fall objects
 	# building_o = falling_object(0,0,5)
+
+
 	while not done:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -320,6 +350,8 @@ def falling_game():
 		elif playerY>=520:
 			playerY=520
 			
+
+
 		screen.fill((113, 197, 255))
 		#screen.blit(scene3,(0,0))
 		# building_o.move(True)
@@ -344,7 +376,12 @@ def falling_game():
 		if cityY <=297:
 			print("you done")
 		if playerX<=186:
-			player_image = explosion1
+
+			return "dead"
+
+
+			# player_image = explosion1
+
 
 		pygame.display.flip()
 
@@ -354,11 +391,16 @@ def falling_game():
 
 
 # #title
-stillScene(splash,0,0,pygame.K_SPACE)	
-pregame()
-fall_animation()
+# stillScene(splash,0,0,pygame.K_SPACE)	
+# pregame()
+# fall_animation()
 
-falling_game()
+if falling_game() == "dead":
+	pygame.mixer.music.stop()
+	pygame.mixer.music.load("./assets/truly_unfortunate.ogg")
+	pygame.mixer.music.play(-1,0.0)
+	fadetoWhite(screen,death1)
+	stillScene(death,0,0,pygame.K_SPACE)
 
 
 
