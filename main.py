@@ -260,6 +260,26 @@ def fall_animation():
 			done = True
 		pygame.display.flip()
 
+class falling_object():
+	"""docstring for falling_object"""
+	def __init__(self, x, y, speed):
+		self.x = x
+		self.y = y
+		self.speed = speed
+	def move(self,loop):
+		done = False
+		while not done:
+			self.y-=self.speed
+			if loop == True:
+				if self.y<= -600:
+					self.y = 0
+			print(self.y)
+	def draw(self,image):
+		# screen.blit(image,(self.x,self.y))
+		screen.blit(building,(0,0))
+
+
+		
 
 def falling_game():
 	
@@ -270,7 +290,8 @@ def falling_game():
 	playerX = 400
 	playerY = 10
 
-
+	#fall objects
+	building_o = falling_object(0,0,5)
 	while not done:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -294,12 +315,13 @@ def falling_game():
 			
 		screen.fill((113, 197, 255))
 		#screen.blit(scene3,(0,0))
-		screen.blit(building,(0,0))
+		building_o.move(True)
+		
 
 
 
 		screen.blit(player_fall,(playerX,playerY))
-
+		building_o.draw(building)
 		pygame.display.flip()
 
 
