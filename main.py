@@ -5,7 +5,7 @@ pygame.mixer.pre_init()
 pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("tower game (Pyweek28) ...")
+pygame.display.set_caption("The Leap of a Frugal Man (Pyweek28) ...")
 
 blackTexture = pygame.image.load("./assets/back_texture.png")
 room1bg = pygame.image.load("./assets/room1.png")
