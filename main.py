@@ -27,8 +27,10 @@ scene3 =pygame.image.load("./assets/scene3.png")
 
 #game object
 building = pygame.image.load("./assets/building.png")
-
-
+cloud = pygame.image.load("./assets/cloud.png")
+city = pygame.image.load("./assets/city.png")
+explosion1 = pygame.image.load("./assets/explosion1.png")
+explosion2 = pygame.image.load("./assets/explosion2.png")
 def stillScene(picture,x,y,button):
 	done = False
 
@@ -260,23 +262,23 @@ def fall_animation():
 			done = True
 		pygame.display.flip()
 
-class falling_object():
-	"""docstring for falling_object"""
-	def __init__(self, x, y, speed):
-		self.x = x
-		self.y = y
-		self.speed = speed
-	def move(self,loop):
-		done = False
-		while not done:
-			self.y-=self.speed
-			if loop == True:
-				if self.y<= -600:
-					self.y = 0
-			print(self.y)
-	def draw(self,image):
-		# screen.blit(image,(self.x,self.y))
-		screen.blit(building,(0,0))
+# class falling_object():
+# 	"""docstring for falling_object"""
+# 	def __init__(self, x, y, speed):
+# 		self.x = x
+# 		self.y = y
+# 		self.speed = speed
+# 	def move(self,loop):
+# 		done = False
+# 		while not done:
+# 			self.y-=self.speed
+# 			if loop == True:
+# 				if self.y<= -600:
+# 					self.y = 0
+# 			print(self.y)
+# 	def draw(self,image):
+# 		# screen.blit(image,(self.x,self.y))
+# 		screen.blit(building,(0,0))
 
 
 		
@@ -289,9 +291,14 @@ def falling_game():
 	meters_fallen = 0
 	playerX = 400
 	playerY = 10
+	player_image = player_fall
+
+	buildingY = 0
+	cloudY = 300
+	cityY = 600
 
 	#fall objects
-	building_o = falling_object(0,0,5)
+	# building_o = falling_object(0,0,5)
 	while not done:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -315,13 +322,30 @@ def falling_game():
 			
 		screen.fill((113, 197, 255))
 		#screen.blit(scene3,(0,0))
-		building_o.move(True)
+		# building_o.move(True)
 		
+		#background moving
+		screen.blit(city,(0,cityY))
+		screen.blit(cloud,(200,cloudY))
+		screen.blit(building,(0,buildingY))
 
 
 
-		screen.blit(player_fall,(playerX,playerY))
-		building_o.draw(building)
+		screen.blit(player_image,(playerX,playerY))
+		# building_o.draw(building)
+
+
+		#background change y
+		buildingY-=10
+		cloudY-=0.1
+		cityY-=0.2
+		if buildingY <=-600:
+			buildingY=0
+		if cityY <=297:
+			print("you done")
+		if playerX<=186:
+			player_image = explosion1
+
 		pygame.display.flip()
 
 
@@ -330,9 +354,9 @@ def falling_game():
 
 
 # #title
-# stillScene(splash,0,0,pygame.K_SPACE)	
-# pregame()
-#fall_animation()
+stillScene(splash,0,0,pygame.K_SPACE)	
+pregame()
+fall_animation()
 
 falling_game()
 
