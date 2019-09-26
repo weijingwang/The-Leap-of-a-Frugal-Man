@@ -381,11 +381,11 @@ def falling_game():
 			
 			birdX=-80
 			birdY=randrange(300,520)
-			print(birdY)
+			# print(birdY)
 		elif birdY<=0:
 			birdY=randrange(300,520)
 			birdX=-80
-			print(birdY)
+			# print(birdY)
 #bird2
 		screen.blit(bird,(bird2X,bird2Y))
 		bird2X+=5+randrange(-2,2)
@@ -394,11 +394,11 @@ def falling_game():
 			
 			bird2X=-80
 			bird2Y=randrange(0,250)
-			print(bird2Y)
+			# print(bird2Y)
 		elif bird2Y<=0:
 			bird2Y=randrange(0,250)
 			bird2X=-80
-			print(bird2Y)
+			# print(bird2Y)
 		# building_o.draw(building)
 
 
@@ -410,13 +410,16 @@ def falling_game():
 			buildingY=0
 
 		#TRIGGER FLAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
-		if counter >=20:#297 original
-			print("you done")
+		if counter >=30:#30 original--------------------------------------------------THIS IS THE TIMER YOU CAN CHANGE THIS TO SHORTEN OR INCREASE TIME OF FALL
+			# print("you done")
 			pmX +=pmSpeed
 			pmSpeed += pmAccel
 			if pressed[pygame.K_p]:
 				return "safe"
 
+
+		if pmX>=800:
+			return "dead"
 
 		if playerX<=186:
 
@@ -464,7 +467,7 @@ def chute_animation():
 		if py>= 261:
 			y=261
 			p_image = playerR
-			print("yay")
+			# print("yay")
 			if winx <=400:
 				winx +=4
 			else:
@@ -487,9 +490,12 @@ if falling_game() == "dead":
 	pygame.mixer.music.play(-1,0.0)
 	fadetoWhite(screen,death1)
 	stillScene(death,0,0,pygame.K_SPACE)
+	print("death by crashing into bird, crashing into building, or deploying parachute too late... :(")
+	print("SECRET!!! press ENTER to teleport rooms when you want to move faster...")
 else:
-	print("poooooo")
+	# print("poooooo")
 	chute_animation()
+	print("you win!")
 
 # falling_game()
 
