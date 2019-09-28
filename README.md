@@ -3,6 +3,9 @@ made by speedlimit35 and I made music, art, and code
 
 pyweek 28
 
+
+This is a game about jumping off a tower.
+
 buddy!
 you need pygame and python3
 
